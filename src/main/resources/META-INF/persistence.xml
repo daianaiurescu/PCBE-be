@@ -1,0 +1,9 @@
+<persistence>
+    <persistence-unit name="order">
+        <jta-data-source>jdbc/test</jta-data-source>
+<!--        <properties>-->
+<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+<!--            <property name="eclipselink.ddl-generation.output-mode" value="both"/>-->
+<!--        </properties>-->
+    </persistence-unit>
+</persistence>
