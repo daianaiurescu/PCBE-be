@@ -1,17 +1,10 @@
 package org.pcbe.dto;
 
-import jakarta.persistence.*;
-
 import java.io.Serializable;
 
-// TODO: Remove entity annotations, since this is not an entity that is going to be stored in the database, only made to demonstrate
-@Entity
-@Table(name = "order_")
 public class Order implements Serializable {
 
-    @Id
     private String stockName;
-    @Enumerated(EnumType.STRING)
     private OrderType type;
     private int quantity;
 

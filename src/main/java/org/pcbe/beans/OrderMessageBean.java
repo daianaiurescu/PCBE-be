@@ -4,8 +4,10 @@ import jakarta.annotation.Resource;
 import jakarta.ejb.ActivationConfigProperty;
 import jakarta.ejb.MessageDriven;
 import jakarta.ejb.MessageDrivenContext;
+import jakarta.inject.Inject;
 import jakarta.jms.*;
 import org.pcbe.dto.Order;
+import org.pcbe.model.Stock;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,9 @@ public class OrderMessageBean implements MessageListener {
     private MessageDrivenContext mdc;
     private static final Logger logger = Logger.getLogger(OrderMessageBean.class.toString());
 
+    @Inject
+    private OrderProcessorBean orderProcessor;
+
     public OrderMessageBean() {
     }
 
@@ -29,7 +34,9 @@ public class OrderMessageBean implements MessageListener {
             if (message instanceof ObjectMessage) {
                 ObjectMessage objectMessage = (ObjectMessage) message;
                 Order order = objectMessage.getBody(Order.class);
-                logger.log(Level.INFO, order.toString());
+
+                Stock stock = orderProcessor.processOrder(order);
+                logger.log(Level.INFO, stock.toString());
             } else {
                 logger.log(Level.WARNING, "Unknown message type {0}", message.getClass().getName());
             }
