@@ -21,9 +21,8 @@ public class OrderProcessorBean {
     public OrderProcessorBean() {
     }
 
-    public Stock processOrder(Order order) {
+    public boolean processOrder(Order order) {
         Stock stock = stockManager.getStock(order.getStockName());
-
         // TODO: Maybe make this prettier
         if (
             order.getType() == Order.OrderType.BUY && order.getQuantity() <= stock.getAvailableQuantity() ||
@@ -47,9 +46,14 @@ public class OrderProcessorBean {
             Timestamp timestamp = new Timestamp(date.getTime());
             PriceTimestamp priceTimestamp = new PriceTimestamp(stock.getPrice(), timestamp);
             stock.addTimestamp(priceTimestamp);
+            stockManager.updateStock(stock);
+            return true;
         }
+        return false;
+    }
 
-        return stockManager.updateStock(stock);
+    public Stock getStock(String name) {
+        return stockManager.getStock(name);
     }
 
 }

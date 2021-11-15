@@ -35,8 +35,10 @@ public class OrderMessageBean implements MessageListener {
                 ObjectMessage objectMessage = (ObjectMessage) message;
                 Order order = objectMessage.getBody(Order.class);
 
-                Stock stock = orderProcessor.processOrder(order);
-                logger.log(Level.INFO, stock.toString());
+                if(orderProcessor.processOrder(order)) {
+                    Stock stock = orderProcessor.getStock(order.getStockName());
+                    logger.log(Level.INFO, stock.toString());
+                }
             } else {
                 logger.log(Level.WARNING, "Unknown message type {0}", message.getClass().getName());
             }

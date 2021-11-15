@@ -1,12 +1,10 @@
 package org.pcbe.api;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.pcbe.beans.StockManagerBean;
 import org.pcbe.model.Stock;
+import org.pcbe.services.StockService;
 
 import java.util.List;
 
@@ -14,12 +12,25 @@ import java.util.List;
 public class StockResource {
 
     @Inject
-    private StockManagerBean stockManager;
+    private StockService stockService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Stock> getAll() {
-        return stockManager.getStocks();
+        return stockService.getAll();
     }
 
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String addNewStock(Stock stock) {
+        return stockService.addStock(stock);
+    }
+
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String ModifyStock(Stock stock) {
+        return stockService.modifyStock(stock);
+    }
 }
